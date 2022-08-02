@@ -37,6 +37,17 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Edit Post by api/posts/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    if (!post) throw Error("No Post Found");
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
+});
+
 // Update Post by api/posts/:id
 router.patch("/:id", async (req, res) => {
   try {
