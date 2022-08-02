@@ -29,12 +29,22 @@ router.post("/", async (req, res) => {
 // Delete Post by api/posts/:id
 router.delete("/:id", async (req, res) => {
   try {
-    const posts = await Posts.find();
-    if (!posts) throw Error("No Items");
-    res.status(200).json(posts);
+    const post = await Posts.findByIdAndDelete(req.params.id);
+    if (!post) throw Error("No Post Found");
+    res.status(200).json({ success: true });
   } catch (err) {
     res.status(400).json({ msg: err });
   }
 });
 
+// Update Post by api/posts/:id
+router.patch("/:id", async (req, res) => {
+  try {
+    const post = await Posts.findByIdAndUpdate(req.params.id, req.body);
+    if (!post) throw Error("Something went wrong while Updating post");
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
+});
 module.exports = router;
